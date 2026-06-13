@@ -64,6 +64,12 @@ async function run() {
       const updatedData = req.body;
       const todos = await Todo.findByIdAndUpdate(id, updatedData, {new: true})
       res.send(todos);
+    });
+
+    app.delete('/post/:id', async (req, res) => {
+      const id = req.params.id;
+      await Todo.findByIdAndDelete(id);
+      res.send('deleted successfully')
     })
 
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
