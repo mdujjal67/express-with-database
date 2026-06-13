@@ -50,13 +50,20 @@ async function run() {
 
       console.log(todo)
       res.send(todo)
-    })
+    });
 
     app.get('/post/:id', async (req, res) => {
       const id = req.params.id;
       const todos = await Todo.findById(id);
       
       res.send(todos)
+    });
+
+    app.patch('/post/:id', async (req, res) => {
+      const id = req.params.id;
+      const updatedData = req.body;
+      const todos = await Todo.findByIdAndUpdate(id, updatedData, {new: true})
+      res.send(todos);
     })
 
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
