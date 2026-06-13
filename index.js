@@ -2,6 +2,8 @@ const express = require('express');
 const app = express()
 const port = 5000
 
+app.use(express.json())
+
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = "mongodb+srv://express_backend_user:DXrDbNZUv8TtjFYJ@cluster0.7tyfnet.mongodb.net/?appName=Cluster0";
@@ -23,13 +25,20 @@ async function run() {
 
     const backendCollection = client.db('ExBackendDB').collection('exBackend');
 
-    app.get('/backend', async (req, res) => {
+    app.get('/posts', async (req, res) => {
         const backend = await backendCollection.find({}).toArray();
         res.send(backend)
+    });
+
+    app.post('/post', async (req, res)=> {
+        const postdata = req.body;
+        const post =await backendCollection.insertOne(postdata);
+        res.send(post)
     })
 
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
+  } 
+  finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
   }
